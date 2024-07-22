@@ -144,7 +144,7 @@ resource "aws_instance" "web_server" {
 }
 
 resource "aws_s3_bucket" "my-new-S3-bucket" {
-  bucket = "aleksandr-unique-bucket-123412358029345"
+  bucket = "aleksandr-unique-bucket-${random_id.random-string-s3.hex}"
   tags = {
     Name = "My S3 bucket"
     Purpose = "Intro to terraform resources"
@@ -173,4 +173,8 @@ resource "aws_security_group" "my-new-security-group" {
     Name    = "web_server_inbound"
     Purpose = "Intro to Resource Blocks Lab"
   }
+}
+
+resource "random_id" "random-string-s3" {
+  byte_length = 16
 }

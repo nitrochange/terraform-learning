@@ -38,6 +38,15 @@ HCL syntax:
         identifier = expression
 } 
 ```
+Terraform providers:
+used to interact with Cloud Platforms
+```terraform
+terraform version
+terraform providers
+```
+
+Terraform resources:
+One or more deployed resource
 
 
 

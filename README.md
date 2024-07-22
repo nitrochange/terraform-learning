@@ -48,7 +48,8 @@ terraform providers
 Terraform resources:
 One or more deployed resource
 
-
+We can create resources from different providers and
+use data from 1 resource inside another resource.
 
 
 

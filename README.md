@@ -71,6 +71,27 @@ locals {
 }
 ```
 
+Terraform data blocks:
+The way to combine to load of query some data
+Use provider documentation here.
+```terraform
+data <data-type> <data-name> {
+        <identifier> = <expression>
+}
+#see examples in the code
+data "aws_availability_zones" "available" {}
+```
+Эта data вытаскивает из aws переменную типа aws_availability_zones и из нее мы может вытащить 
+переменные которые находятся внутри этого блока.
+```terraform
+data "aws_ami" "ubuntu" {
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+```
+data может содержать фильтры
 
 
 

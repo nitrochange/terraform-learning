@@ -8,7 +8,7 @@ data "aws_availability_zones" "available" {}
 data "aws_region" "current" {}
 
 locals {
-  team = "api_mgmt_dev"
+  team        = "api_mgmt_dev"
   application = "corp_api"
   server_name = "ec2-${var.environment}-api-${var.variables_sub_az}"
 }
@@ -21,6 +21,7 @@ resource "aws_vpc" "vpc" {
     Name        = var.vpc_name
     Environment = "demo_environment"
     Terraform   = "true"
+    Region      = data.aws_region.current.name
   }
 }
 
@@ -56,8 +57,8 @@ resource "aws_route_table" "public_route_table" {
   vpc_id = aws_vpc.vpc.id
 
   route {
-    cidr_block     = "0.0.0.0/0"
-    gateway_id     = aws_internet_gateway.internet_gateway.id
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.internet_gateway.id
     #nat_gateway_id = aws_nat_gateway.nat_gateway.id
   }
   tags = {
@@ -70,7 +71,7 @@ resource "aws_route_table" "private_route_table" {
   vpc_id = aws_vpc.vpc.id
 
   route {
-    cidr_block     = "0.0.0.0/0"
+    cidr_block = "0.0.0.0/0"
     # gateway_id     = aws_internet_gateway.internet_gateway.id
     nat_gateway_id = aws_nat_gateway.nat_gateway.id
   }
@@ -128,7 +129,7 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
 
   filter {
@@ -145,23 +146,23 @@ resource "aws_instance" "web_server" {
   instance_type = "t3.micro"
   subnet_id     = aws_subnet.public_subnets["public_subnet_1"].id
   tags = {
-    Name = local.server_name
+    Name  = local.server_name
     Owner = local.team
-    App = local.application
+    App   = local.application
   }
 }
 
 resource "aws_s3_bucket" "my-new-S3-bucket" {
   bucket = "aleksandr-unique-bucket-${random_id.random-string-s3.hex}"
   tags = {
-    Name = "My S3 bucket"
+    Name    = "My S3 bucket"
     Purpose = "Intro to terraform resources"
   }
 }
 
 resource "aws_s3_bucket_acl" "my_new_bucket_acl" {
   bucket = aws_s3_bucket.my-new-S3-bucket.id
-  acl = "private"
+  acl    = "private"
 }
 
 resource "aws_security_group" "my-new-security-group" {

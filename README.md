@@ -92,6 +92,20 @@ data "aws_ami" "ubuntu" {
 }
 ```
 data может содержать фильтры
+Terraform configuration
+We can use terraform.tf to configure out local terraform
+
+Terraform modules:
+Ways to organize our infrastructure into logical folders. Modules can be online or offline
+```shell
+module "<module-name>" {
+  source = <module-source>
+  <input_name> = <description>
+  <input_name> = <description>
+}
+```
+
+
 
 
 

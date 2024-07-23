@@ -51,6 +51,26 @@ One or more deployed resource
 We can create resources from different providers and
 use data from 1 resource inside another resource.
 
+Terraform variables:
+```terraform
+#global variables located in variables.tf
+variable "variables_sub_auto_ip" {
+  description = "Set Automatic IP Assigment for Variables Subnet"
+  type        = bool
+  default = true
+}
+#local variables located at the top of the file, template
+locals {
+  # Block body
+  local_variable_name = <EXPRESSION OR VALUE>
+  local_variable_name = <EXPRESSION OR VALUE>
+}
+#example
+locals {
+  time = timestamp()
+}
+```
+
 
 
 

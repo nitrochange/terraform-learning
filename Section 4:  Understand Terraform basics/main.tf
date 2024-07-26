@@ -160,10 +160,10 @@ resource "aws_s3_bucket" "my-new-S3-bucket" {
   }
 }
 
-resource "aws_s3_bucket_acl" "my_new_bucket_acl" {
-  bucket = aws_s3_bucket.my-new-S3-bucket.id
-  acl    = "private"
-}
+# resource "aws_s3_bucket_acl" "my_new_bucket_acl" {
+#   bucket = aws_s3_bucket.my-new-S3-bucket.id
+#   acl    = "private"
+# }
 
 resource "aws_security_group" "my-new-security-group" {
   name        = "web_server_inbound"
@@ -199,3 +199,13 @@ resource "aws_subnet" "variables-subnet" {
     Terraform = "true"
   }
 }
+
+resource "tls_private_key" "generated" {
+  algorithm = "RSA"
+}
+
+resource "local_file" "private_key_pem" {
+  content = tls_private_key.generated.private_key_pem
+  filename = "MyAWSKey.pem"
+}
+

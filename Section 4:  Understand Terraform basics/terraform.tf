@@ -5,15 +5,15 @@ terraform {
       source = "hashicorp/aws"
     }
     http = {
-      source = "hashicorp/http"
+      source  = "hashicorp/http"
       version = "2.1.0"
     }
     random = {
-      source = "hashicorp/random"
+      source  = "hashicorp/random"
       version = "3.6.2"
     }
     local = {
-      source  = "hashicorp/local"
+      source = "hashicorp/local"
     }
     tls = {
       source = "hashicorp/tls"

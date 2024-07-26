@@ -111,7 +111,23 @@ If we want to see some output variables after our deploy we can use:
 terraform output
 terraform output --json
 ```
-
+Terraform provioners:
+There are two types of provisioners, local performs some tasks on local machine.
+Remote provisioner executes commands on remote target, examples:
+```terraform
+#changes permissions for local key
+provisioner "local-exec" {
+    command = "chmod 600 ${local_file.private_key_pem.filename}"
+  }
+# performs commands on remote target
+provisioner "remote-exec" {
+  inline = [
+    "sudo rm -rf /tmp",
+    "sudo git clone https://github.com/hashicorp/demo-terraform-101 /tmp",
+    "sudo sh /tmp/assets/setup-web.sh",
+  ]
+}
+```
 
 
 

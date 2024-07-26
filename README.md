@@ -128,6 +128,20 @@ provisioner "remote-exec" {
   ]
 }
 ```
+Terraform taint and replace
+`taint` - manually mark resource for recreation. 
+Simple way to redeploy only marked resources, not all managed by terraform.
+```terraform
+terraform state list
+terraform taint <resource.name>
+terraform plan
+terraform apply
+```
+Example showing recreation only 1 of resources.
+`Taint` - is deprecated how recommended approach is --replace command.
+```terraform
+terraform apply -replace="aws_instance.web_server"
+```
 
 
 

@@ -105,6 +105,14 @@ module "<module-name>" {
 }
 ```
 
+Terraform output:
+If we want to see some output variables after our deploy we can use:
+```terraform
+terraform output
+terraform output --json
+```
+
+
 
 
 

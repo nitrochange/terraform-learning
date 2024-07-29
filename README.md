@@ -158,6 +158,12 @@ Cool feature, allows distinguish resources that we are creating in several works
 terraform workspace new <name>
 terraform workspace select <name>
 ```
+Terraform state CLI:
+There are some commands that can help track some states more flexibly
+```terraform
+terraform state show <resource_type>.<resource_name>
+terraform state list
+```
 
 
 

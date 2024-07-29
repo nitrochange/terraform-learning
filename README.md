@@ -164,6 +164,16 @@ There are some commands that can help track some states more flexibly
 terraform state show <resource_type>.<resource_name>
 terraform state list
 ```
+Debugging Terraform:
+We can choose log level and put all logs into log file.
+```terraform
+#Logging level
+export TF_LOG=TRACE
+#logging file
+export TF_LOG_PATH="terraform_log.txt"
+#disable logging
+export TF_LOG=""
+```
 
 
 

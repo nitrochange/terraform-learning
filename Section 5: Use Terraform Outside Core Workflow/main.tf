@@ -1,6 +1,14 @@
 # Configure the AWS Provider
 provider "aws" {
-  region = "us-east-1"
+  region = "us-west-2"
+  default_tags {
+    tags = {
+      Environment = terraform.workspace
+      Owner       = "The best company in the world"
+      Project     = "Infrastructure as Code"
+      Terraform   = "true"
+    }
+  }
 }
 
 #Retrieve the list of AZs in the current AWS region
@@ -143,11 +151,11 @@ data "aws_ami" "ubuntu" {
 # Terraform Resource Block - To Build EC2 instance in Public Subnet
 # Terraform Resource Block - To Build Web Server in Public Subnet
 resource "aws_instance" "web_server" {
-  ami                         = data.aws_ami.ubuntu.id
-  instance_type               = "t3.micro"
-  subnet_id                   = aws_subnet.public_subnets["public_subnet_1"].id
-  security_groups             = [aws_security_group.vpc-ping.id,
-    aws_security_group.ingress-ssh.id, aws_security_group.vpc-web.id]
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t3.micro"
+  subnet_id     = aws_subnet.public_subnets["public_subnet_1"].id
+  security_groups = [aws_security_group.vpc-ping.id,
+  aws_security_group.ingress-ssh.id, aws_security_group.vpc-web.id]
   associate_public_ip_address = true
   key_name                    = aws_key_pair.generated.key_name
   connection {
@@ -347,3 +355,7 @@ resource "aws_security_group" "vpc-ping" {
   }
 }
 
+resource "aws_instance" "aws_linux" {
+  ami           = "ami-0427090fd1714168b"
+  instance_type = "t2.micro"
+}

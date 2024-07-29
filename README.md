@@ -142,6 +142,22 @@ Example showing recreation only 1 of resources.
 ```terraform
 terraform apply -replace="aws_instance.web_server"
 ```
+Terraform import:
+There is a way to connect already existing resources to terraform and manage their state.
+Command to use:
+```terraform
+terraform import <resource_type>.<resource_name> <existing_resource_id>
+#example
+terraform import aws_instance.aws_linux i-0bfff5070c5fb87b6
+```
+After that unfortunatelly we have to manually copy some parameters into `main.tf` file, not sure why?
+
+Terraform workspaces:
+Cool feature, allows distinguish resources that we are creating in several workspaces
+```terraform
+terraform workspace new <name>
+terraform workspace select <name>
+```
 
 
 

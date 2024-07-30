@@ -363,12 +363,17 @@ resource "aws_instance" "aws_linux" {
 module "server" {
   source    = "./modules/server"
   ami       = data.aws_ami.ubuntu.id
+  size      = "t3.micro"
   subnet_id = aws_subnet.public_subnets["public_subnet_3"].id
   security_groups = [
     aws_security_group.vpc-ping.id,
     aws_security_group.ingress-ssh.id,
     aws_security_group.vpc-web.id
   ]
+}
+
+output "size" {
+  value = module.server.size
 }
 
 module "server_subnet_1" {
@@ -391,7 +396,7 @@ module "autoscaling" {
   name = "myasg"
 
   vpc_zone_identifier = [aws_subnet.private_subnets["private_subnet_1"].id,
-  aws_subnet.private_subnets["private_subnet_2"].id,
+    aws_subnet.private_subnets["private_subnet_2"].id,
   aws_subnet.private_subnets["private_subnet_3"].id]
   min_size         = 0
   max_size         = 1

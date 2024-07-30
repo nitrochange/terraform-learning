@@ -175,6 +175,35 @@ export TF_LOG_PATH="terraform_log.txt"
 export TF_LOG=""
 ```
 
+### Terraform modules
+Terraform modules are basically folder that contains some code, nothing more.
+Terraform can use local modules, modules from Terraform public registry and modules from private
+registry(Terraform Cloud, Terraform Enterprise).
+Local modules:
+```terraform
+|-- modules
+|     |-- server
+|           |-- server.tf
+|     |-- web_server
+|           |-- server.tf
+|
+```
+In that case we will need to reference local code from root module:
+```terraform
+module "server_subnet_1" {
+  source      = "./modules/web_server"
+  ...
+}
+```
+Terraform public registry:
+```terraform
+module "autoscaling" {
+  source = "terraform-aws-modules/autoscaling/aws"
+  ...
+}
+```
+After every change in modules we want to run `terraform init`
+
 
 
 

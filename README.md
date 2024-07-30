@@ -223,7 +223,13 @@ Variables with default values can also be provided as module arguments, overridi
 
 We can use outputs from module in different modules(like input and output variables).
 
+Some guidelines to create a good module:
+1. Encapsulation: Group infrastructure that is always deployed together. Including more infrastructure in a module makes it easier for an end user to deploy that infrastructure but makes the module's purpose and requirements harder to understand
+2. Privileges: Restrict modules to privilege boundaries. If infrastructure in the module is the responsibility of more than one group, using that module could accidentally violate segregation of duties. Only group resources within privilege boundaries to increase infrastructure segregation and secure your infrastructure
+3. Volatility: Separate long-lived infrastructure from short-lived. For example, database infrastructure is relatively static while teams could deploy application servers multiple times a day. Managing database infrastructure in the same module as application servers exposes infrastructure that stores state to unnecessary churn and risk.
 
+modules have versions.
+we can set version expliciltly or write some constraints for versions
 
 
 

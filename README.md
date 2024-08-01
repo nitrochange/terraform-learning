@@ -231,6 +231,45 @@ Some guidelines to create a good module:
 modules have versions.
 we can set version expliciltly or write some constraints for versions
 
+## Core Terraform workflow
+### Terraform init
+`terraform init` - command is used to initialize a working directory containing Terraform 
+configuration files. This is the first command that should be run after writing a new Terraform configuration or cloning an existing one from version control.
+By default terraform find, download and install providers from public registry, if we don't 
+want such behaviour we can customize it in configuration.
+If we want to change the directory where we track state we can add following configuration 
+to our `terraform.tf` file:
+```terraform
+  backend "local" {
+    path = "mystate/terraform.tfstate"
+  }
+```
+then, to apply our changes:
+```bash
+terraform init --migrate-state
+```
+Validation of terraform configuration:
+`terraform validate` - ensures that all configuration is correct
+`terraform validate -json` - useful in pipelines, to see|publish errors
+
+### Terraform plan
+`terraform plan` - dry-run of your changes and checking and outgoing result
+matched your expectations. Also this command checks current state and identifies 
+differences between existing infrastructure and written infrastructure.
+```bash
+terraform plan
+terraform plan -out file
+terraform plan -refresh-only
+```
+### Terraform apply
+`terraform apply` - executes promised actions on actual infrastructure.
+```bash
+terraform apply
+#also we can apply from the saved plan
+terraform apply myplan
+```
+
+
 
 
 

@@ -53,3 +53,10 @@ variable "environment" {
   type        = string
   default     = "dev"
 }
+
+variable "tags" {
+  description = "Tags for the instance"
+  default = {
+    Name = "hello"
+  }
+}

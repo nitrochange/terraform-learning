@@ -268,6 +268,25 @@ terraform apply
 #also we can apply from the saved plan
 terraform apply myplan
 ```
+## Terraform State Management
+`terraform apply` - performs a lock while applying, so 1 one user can `apply` at the same time
+we can specify timeout if we want
+`terraform apply -lock-timeout=60s`
+Not all backends supports locking(which is obviously important for collaborative teams). 
+Remote state(Terraform Cloud, Terraform Enterprise) supports locking. Default backend `local` 
+supports locking.
+
+### State authentication
+Since we have some state in remote and several people have access to that state 
+we need to create some permissions control because we dont want everyone to access our state.
+We configured default S3 state backend in our labs.
+
+### State Locks
+To prevents concurrent modifications of our remote-state we are using Dynamo-DB table,
+first of all we have to configure it manually and then provide value of that DynamoDB to our
+terraform backend configuration
+
+
 
 
 

@@ -14,7 +14,11 @@ resource "random_pet" "server" {
   length = 2
 }
 
-module "s3-bucket_example_complete" {
-  source  = "terraform-aws-modules/s3-bucket/aws//examples/complete"
-  version = "2.10.0"
-}
+# resource "aws_instance" "web_server_2" {
+#   ami           = data.aws_ami.ubuntu.id
+#   instance_type = "t3.micro"
+#   subnet_id     = aws_subnet.public_subnets["public_subnet_2"].id
+#   tags = {
+#     Name = "Web EC2 Server 2"
+#   }
+# }

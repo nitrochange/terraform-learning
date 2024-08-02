@@ -286,7 +286,18 @@ To prevents concurrent modifications of our remote-state we are using Dynamo-DB 
 first of all we have to configure it manually and then provide value of that DynamoDB to our
 terraform backend configuration
 
+### State Migration
+We can easily transfer our state file just changing configuration in `terraform.tf` file
+and using:
+```terraform
+terraform init -migrate-state
+```
 
+### State refresh
+We can refresh state if we observe any drift in configuration, use command:
+```terraform
+terraform apply -refresh-only
+```
 
 
 

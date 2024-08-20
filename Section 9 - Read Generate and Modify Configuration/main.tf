@@ -393,12 +393,7 @@ resource "aws_instance" "web_server_2" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
   subnet_id     = aws_subnet.public_subnets["public_subnet_2"].id
-  tags = {
-    Name = "Web EC2 Server 2"
-    "Service" = local.service_name
-    "AppTeam" = local.app_team
-    "createdby" = local.createdby
-  }
+  tags = local.common_tags
 }
 
 resource "random_pet" "server" {
@@ -409,4 +404,12 @@ locals {
   service_name = "Automation"
   app_team = "Cloud Team"
   createdby = "terraform"
+  common_tags = {
+    Name      = var.server_name
+    Owner     = local.team
+    App       = local.application
+    Service   = local.service_name
+    AppTeam   = local.app_team
+    CreatedBy = local.createdby
+  }
 }

@@ -1,6 +1,9 @@
 # terraform-learning
 Repository contains code samples completed during terraform course
 
+github with labs:
+https://github.com/btkrausen/hashicorp/tree/master/terraform/Hands-On%20Labs
+
 ```
 export AWS_ACCESS_KEY_ID="..."
 export AWS_SECRET_ACCESS_KEY="..."
@@ -72,12 +75,19 @@ locals {
 ```
 
 Terraform data blocks:
-The way to combine to load of query some data
-Use provider documentation here.
+The way retrieve some information with api (provider api will be used)
+Use provider documentation here. For example here
+we create data block with type:`aws_availability_zones` and
+local name: `available`, later we can query retrieved data with:
+`data.aws_availability_zones.available.<some-data>`
 ```terraform
-data <data-type> <data-name> {
+data <type> <local-name> {
         <identifier> = <expression>
 }
+
+#query
+data.<type>.<local-name>.<attribute>        
+
 #see examples in the code
 data "aws_availability_zones" "available" {}
 ```
@@ -95,7 +105,7 @@ data может содержать фильтры
 Terraform configuration
 We can use terraform.tf to configure out local terraform
 
-Terraform modules:
+### Terraform modules:
 Ways to organize our infrastructure into logical folders. Modules can be online or offline
 ```shell
 module "<module-name>" {
@@ -105,13 +115,29 @@ module "<module-name>" {
 }
 ```
 
-Terraform output:
+### Terraform output:
 If we want to see some output variables after our deploy we can use:
 ```terraform
 terraform output
 terraform output --json
 ```
-Terraform provioners:
+### Terraform providers:
+Local provider is responsible for managing local resources such as files. 
+```terraform
+terraform {
+  required_providers {
+    local = {
+      source = "hashicorp/local"
+      version = "2.1.0"
+    }
+  }
+}
+```
+`tf providers` - command to check installed providers
+
+`tf init -upgrade` - initiate terraform and upgrade all providers
+
+### Terraform provisioners:
 There are two types of provisioners, local performs some tasks on local machine.
 Remote provisioner executes commands on remote target, examples:
 ```terraform

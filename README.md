@@ -179,16 +179,25 @@ terraform import aws_instance.aws_linux i-0bfff5070c5fb87b6
 After that unfortunatelly we have to manually copy some parameters into `main.tf` file, not sure why?
 
 Terraform workspaces:
-Cool feature, allows distinguish resources that we are creating in several workspaces
+Cool feature, allows to distinguish resources that we are creating in several workspaces
 ```terraform
-terraform workspace new <name>
-terraform workspace select <name>
+terraform workspace new <workspace-name>
+terraform workspace select <workspace-name>
+terraform workspace show #current workspace
 ```
+Good practise is to create a default tag `Environment = terraform.workspace`, so it will be
+easy to understand what infrastructure is currently being used.
+
 Terraform state CLI:
-There are some commands that can help track some states more flexibly
+There are some commands that can modify state more flexibly. These commands 
+should be used in advance cases, not in general terraform usage, for 
+safety backup is performed everytime `state` command is called.
 ```terraform
 terraform state show <resource_type>.<resource_name>
 terraform state list
+terraform state mv #move item in state 
+terraform state pull #pull state to stdout
+#there are some other commands
 ```
 Debugging Terraform:
 We can choose log level and put all logs into log file.

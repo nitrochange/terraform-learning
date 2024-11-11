@@ -3,6 +3,7 @@ provider "aws" {
   region = "us-west-2"
   default_tags {
     tags = {
+      #telling what environment we are currently using
       Environment = terraform.workspace
       Owner       = "The best company in the world"
       Project     = "Infrastructure as Code"

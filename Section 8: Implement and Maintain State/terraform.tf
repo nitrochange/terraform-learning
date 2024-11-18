@@ -1,10 +1,5 @@
 terraform {
   required_version = ">= 1.0.0"
-  backend "s3" {
-    bucket = "terraform-storing-some-data-293485238475"
-    key    = "prod/aws_infra"
-    region = "us-east-1"
-  }
   required_providers {
     aws = {
       source = "hashicorp/aws"

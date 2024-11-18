@@ -319,20 +319,47 @@ We configured default S3 state backend in our labs.
 ### State Locks
 To prevents concurrent modifications of our remote-state we are using Dynamo-DB table,
 first of all we have to configure it manually and then provide value of that DynamoDB to our
-terraform backend configuration
+terraform backend configuration. Not all remote backends supports state locking, here Hashicorp 
+sells their own cloud where lock functionality works more nativelly then in AWS, GCP, Azure clouds.
 
 ### State Migration
 We can easily transfer our state file just changing configuration in `terraform.tf` file
 and using:
-```terraform
+```bash
 terraform init -migrate-state
 ```
+example of terraform Cloud Remote Backend:
+```terraform
+terraform {
+   backend "remote" {
+    hostname = "app.terraform.io"
+    organization = "Enterprise-Cloud"
+
+    workspaces {
+      name = "my-aws-app"
+    }
+  }
+}
+```
+to change backend:
+```shell
+terraform init -migrate-state
+```
+to go back to `local` backend provider we can simply remove all `backend` configuration and 
+terraform by default will use `local` backend.
+
 
 ### State refresh
+`terraform refresh` is the first part of the `terraform plan` command. 
 We can refresh state if we observe any drift in configuration, use command:
 ```terraform
 terraform apply -refresh-only
 ```
+
+### Terraform Sensitive Data
+
+
+
 
 
 

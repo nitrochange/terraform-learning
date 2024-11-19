@@ -357,6 +357,74 @@ terraform apply -refresh-only
 ```
 
 ### Terraform Sensitive Data
+We can mark some variables as sensitive, so they will not appear in the output
+(especially important not to expose such variables in pipeline log). 
+
+## Read, Generate and Modify Configuration
+### Local variables
+We can declare some local variables(same as constants) and then reference it later in the code:
+```terraform
+locals {
+  service_name = "Automation"
+  app_team     = "Cloud Team"
+  createdby    = "terraform"
+}
+...
+tags = {
+    "CreatedBy" = local.createdby
+}
+```
+
+### Input variables
+there is an order of precedence in setting variables.
+`variables.tf` - file where declare and describe variables(type, description, isSensitive, default value)
+`terraform.tfvars` - file where we set actual values to declared variables.
+the most powerful way to declare variable is to set it with CLI:
+```shell
+terraform plan -var variables_sub_az="us-east-1e" -var variables_sub_cidr="10.0.205.0/24"
+```
+here `variables_sub_az` is a variable name.
+
+### Variable Validation and Suppression
+We can write custom validators for our variables:
+```terraform
+variable "cloud" {
+  type = string
+  # if condition is true, then terraform plan will fail
+  validation {
+    condition     = contains(["aws", "azure", "gcp", "vmware"], lower(var.cloud))
+    error_message = "You must use an approved cloud."
+  }
+  # if condition is true, then terraform plan will fail
+  validation {
+    condition     = lower(var.cloud) == var.cloud
+    error_message = "The cloud name must not have capital letters."
+  }
+}
+```
+
+### Suppress sensitive information
+```terraform
+variable "phone_number" {
+  type = string
+  sensitive = true
+  default = "867-5309"
+}
+#later we could not see this information in the tf output
+```
+### Secure Secrets(Stored in Vault) in Terraform code
+
+```terraform
+# we configure provider
+provider "vault" {
+  address = "http://127.0.0.1:8200"
+  token = <root token>
+}
+# then we can later reference to this provider
+data "vault_generic_secret" "phone_number" {
+  path = "secret/app"
+}
+```
 
 
 

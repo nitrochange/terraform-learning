@@ -10,16 +10,26 @@ provider "aws" {
     }
   }
 }
-#
-# #Retrieve the list of AZs in the current AWS region
-# data "aws_availability_zones" "available" {}
-# data "aws_region" "current" {}
-#
-# locals {
-#   team        = "api_mgmt_dev"
-#   application = "corp_api"
-#   server_name = "ec2-${var.environment}-api-${var.variables_sub_az}"
-# }
+
+provider "vault" {
+  address = "http://127.0.0.1:8200"
+  #root token should never be committed or exposed
+  token = "<root vault token>"
+}
+
+data "vault_generic_secret" "phone_number" {
+  path = "secret/app"
+}
+
+#Retrieve the list of AZs in the current AWS region
+data "aws_availability_zones" "available" {}
+data "aws_region" "current" {}
+
+locals {
+  team        = "api_mgmt_dev"
+  application = "corp_api"
+  server_name = "ec2-${var.environment}-api-${var.variables_sub_az}"
+}
 #
 # #Define the VPC
 # resource "aws_vpc" "vpc" {
@@ -177,9 +187,7 @@ provider "aws" {
 #     ]
 #   }
 #
-#   tags = {
-#     Name = "Web EC2 Server"
-#   }
+#   tags = local.common_tags
 #
 #   lifecycle {
 #     ignore_changes = [security_groups]
@@ -389,27 +397,27 @@ provider "aws" {
 #     aws_security_group.vpc-web.id]
 # }
 #
-resource "aws_instance" "web_server_2" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
-  subnet_id     = aws_subnet.public_subnets["public_subnet_2"].id
-  tags = local.common_tags
-}
-
-resource "random_pet" "server" {
-  length = 4
-}
-
-locals {
-  service_name = "Automation"
-  app_team = "Cloud Team"
-  createdby = "terraform"
-  common_tags = {
-    Name      = var.server_name
-    Owner     = local.team
-    App       = local.application
-    Service   = local.service_name
-    AppTeam   = local.app_team
-    CreatedBy = local.createdby
-  }
-}
+# resource "aws_instance" "web_server_2" {
+#   ami           = data.aws_ami.ubuntu.id
+#   instance_type = "t3.micro"
+#   subnet_id     = aws_subnet.public_subnets["public_subnet_2"].id
+#   tags = local.common_tags
+# }
+#
+# resource "random_pet" "server" {
+#   length = 4
+# }
+#
+# locals {
+#   service_name = "Automation"
+#   app_team = "Cloud Team"
+#   createdby = "terraform"
+#   common_tags = {
+#     Name      = local.server_name
+#     Owner     = local.team
+#     App       = local.application
+#     Service   = local.service_name
+#     AppTeam   = local.app_team
+#     CreatedBy = local.createdby
+#   }
+# }
